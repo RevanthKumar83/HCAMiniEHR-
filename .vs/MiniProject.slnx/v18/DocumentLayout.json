@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\revanthprojects\\Day-15\\MiniProject\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|c:\\revanthprojects\\day-15\\miniproject\\miniproject\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|solutionrelative:miniproject\\services\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|c:\\revanthprojects\\day-15\\miniproject\\miniproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|solutionrelative:miniproject\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|c:\\revanthprojects\\day-15\\miniproject\\miniproject\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B8A9F900-0581-04F9-EB52-155E156CCCD6}|MiniProject\\MiniProject.csproj|solutionrelative:miniproject\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\Services\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "MiniProject\\Services\\AppointmentService.cs",
+              "ToolTip": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\Services\\AppointmentService.cs",
+              "RelativeToolTip": "MiniProject\\Services\\AppointmentService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAiwC0AAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T09:09:53.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\appsettings.json",
+              "RelativeDocumentMoniker": "MiniProject\\appsettings.json",
+              "ToolTip": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\appsettings.json",
+              "RelativeToolTip": "MiniProject\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-12T08:50:17.548Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "MiniProject\\Models\\Appointment.cs",
+              "ToolTip": "C:\\revanthprojects\\Day-15\\MiniProject\\MiniProject\\Models\\Appointment.cs",
+              "RelativeToolTip": "MiniProject\\Models\\Appointment.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAcwCQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-12T07:36:24.266Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

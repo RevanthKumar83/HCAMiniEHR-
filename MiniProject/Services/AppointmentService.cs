@@ -37,18 +37,44 @@ namespace MiniProject.Services
 
         public async Task<int> CreateAsync(Appointment appointment)
         {
-            // Requirement 6: Primary SQL Stored Procedure invoked from C# (e.g., CreateAppointment SP)
-            var patientIdParam = new SqlParameter("@PatientId", appointment.PatientId);
-            var dateParam = new SqlParameter("@AppointmentDate", appointment.AppointmentDate);
-            var reasonParam = new SqlParameter("@Reason", appointment.Reason ?? (object)DBNull.Value);
-            var doctorParam = new SqlParameter("@DoctorName", appointment.DoctorName ?? (object)DBNull.Value);
-            var newIdParam = new SqlParameter("@NewId", SqlDbType.Int) { Direction = ParameterDirection.Output };
+            // Build strongly-typed SqlParameters (explicit types and sizes)
+            var patientIdParam = new SqlParameter("@PatientId", SqlDbType.Int)
+            {
+                Value = appointment.PatientId
+            };
 
-            await _context.Database.ExecuteSqlRawAsync(
-                "EXEC [Healthcare].[sp_CreateAppointment] @PatientId, @AppointmentDate, @Reason, @DoctorName, @NewId OUT",
+            var dateParam = new SqlParameter("@AppointmentDate", SqlDbType.DateTime2)
+            {
+                Value = appointment.AppointmentDate
+            };
+
+            var reasonParam = new SqlParameter("@Reason", SqlDbType.NVarChar, 255)
+            {
+                Value = (object?)appointment.Reason ?? DBNull.Value
+            };
+
+            var doctorParam = new SqlParameter("@DoctorName", SqlDbType.NVarChar, 100)
+            {
+                Value = (object?)appointment.DoctorName ?? DBNull.Value
+            };
+
+            var newIdParam = new SqlParameter("@NewId", SqlDbType.Int)
+            {
+                Direction = ParameterDirection.Output
+            };
+
+            // Use explicit named parameters in the EXEC string and mark only @NewId as OUTPUT
+            var sql = "EXEC [Healthcare].[sp_CreateAppointment] " +
+                      "@PatientId = @PatientId, " +
+                      "@AppointmentDate = @AppointmentDate, " +
+                      "@Reason = @Reason, " +
+                      "@DoctorName = @DoctorName, " +
+                      "@NewId = @NewId OUTPUT";
+
+            await _context.Database.ExecuteSqlRawAsync(sql,
                 patientIdParam, dateParam, reasonParam, doctorParam, newIdParam);
 
-            return (int)newIdParam.Value;
+            return (int)(newIdParam.Value ?? 0);
         }
 
         public async Task UpdateAsync(Appointment appointment)
