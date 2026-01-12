@@ -1,0 +1,30 @@
+@page
+@model MiniProject.Pages.LabOrders.IndexModel
+
+<h2>Lab Orders</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order Date</th>
+            <th>Patient</th>
+            <th>Test Name</th>
+            <th>Status</th>
+            <th>Result</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.LabOrders) {
+        <tr>
+            <td>@item.OrderDate</td>
+            <td>@(item.Appointment?.Patient?.Name ?? "Unknown")</td>
+            <td>@item.TestName</td>
+            <td>@item.Status</td>
+            <td>@item.Result</td>
+        </tr>
+}
+    </tbody>
+</table>

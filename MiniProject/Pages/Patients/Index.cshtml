@@ -1,0 +1,35 @@
+@page
+@model MiniProject.Pages.Patients.IndexModel
+
+<h2>Patients</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Patients) {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.DateOfBirth.ToShortDateString()</td>
+            <td>@item.Gender</td>
+            <td>@item.Email</td>
+            <td>@item.Phone</td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
