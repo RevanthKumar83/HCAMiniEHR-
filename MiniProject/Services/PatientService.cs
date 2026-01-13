@@ -28,9 +28,23 @@ namespace MiniProject.Services
 
         public async Task InitialCreateAsync(Patient patient)
         {
-            // Simple logic for now, could add business rules
-            _context.Patients.Add(patient);
-            await _context.SaveChangesAsync();
+            var nameParam = new Microsoft.Data.SqlClient.SqlParameter("@Name", patient.Name);
+            var dobParam = new Microsoft.Data.SqlClient.SqlParameter("@DateOfBirth", patient.DateOfBirth);
+            var genderParam = new Microsoft.Data.SqlClient.SqlParameter("@Gender", patient.Gender);
+            var emailParam = new Microsoft.Data.SqlClient.SqlParameter("@Email", patient.Email);
+            var phoneParam = new Microsoft.Data.SqlClient.SqlParameter("@Phone", patient.Phone);
+            
+            var newIdParam = new Microsoft.Data.SqlClient.SqlParameter("@NewId", System.Data.SqlDbType.Int)
+            {
+                Direction = System.Data.ParameterDirection.Output
+            };
+
+            await _context.Database.ExecuteSqlRawAsync(
+                "EXEC [Healthcare].[sp_CreatePatient] @Name, @DateOfBirth, @Gender, @Email, @Phone, @NewId OUTPUT",
+                nameParam, dobParam, genderParam, emailParam, phoneParam, newIdParam);
+
+            // Set the ID back to the object so the UI can use it if needed
+            patient.Id = (int)newIdParam.Value;
         }
 
         public async Task UpdateAsync(Patient patient)

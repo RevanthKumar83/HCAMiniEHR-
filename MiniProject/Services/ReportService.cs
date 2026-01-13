@@ -61,13 +61,13 @@ namespace MiniProject.Services
         // Report 3: Doctor Productivity (GroupBy, Select, OrderBy)
         public async Task<List<DoctorAppointmentStats>> GetDoctorAppointmentStatsAsync()
         {
-            // Group by DoctorName
+            // Group by Doctor.Name
             return await _context.Appointments
-                .Where(a => a.DoctorName != null)
-                .GroupBy(a => a.DoctorName)
+                .Include(a => a.Doctor)
+                .GroupBy(a => a.Doctor != null ? a.Doctor.Name : "Unknown")
                 .Select(g => new DoctorAppointmentStats
                 {
-                    DoctorName = g.Key ?? "Unknown",
+                    DoctorName = g.Key,
                     AppointmentCount = g.Count()
                 })
                 .OrderByDescending(x => x.AppointmentCount)

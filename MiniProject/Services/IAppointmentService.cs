@@ -12,5 +12,6 @@ namespace MiniProject.Services
         Task UpdateAsync(Appointment appointment);
         Task DeleteAsync(int id);
         Task<List<Appointment>> GetByPatientIdAsync(int patientId);
+        Task<bool> IsDoctorAvailableAsync(int doctorId, DateTime appointmentDate);
     }
 }

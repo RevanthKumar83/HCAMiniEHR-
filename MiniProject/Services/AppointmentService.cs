@@ -23,6 +23,7 @@ namespace MiniProject.Services
         {
             return await _context.Appointments
                 .Include(a => a.Patient)
+                .Include(a => a.Doctor)
                 .OrderByDescending(a => a.AppointmentDate)
                 .ToListAsync();
         }
@@ -31,6 +32,7 @@ namespace MiniProject.Services
         {
             return await _context.Appointments
                 .Include(a => a.Patient)
+                .Include(a => a.Doctor)
                 .Include(a => a.LabOrders)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
@@ -53,9 +55,9 @@ namespace MiniProject.Services
                 Value = (object?)appointment.Reason ?? DBNull.Value
             };
 
-            var doctorParam = new SqlParameter("@DoctorName", SqlDbType.NVarChar, 100)
+            var doctorIdParam = new SqlParameter("@DoctorId", SqlDbType.Int)
             {
-                Value = (object?)appointment.DoctorName ?? DBNull.Value
+                Value = appointment.DoctorId
             };
 
             var newIdParam = new SqlParameter("@NewId", SqlDbType.Int)
@@ -68,11 +70,11 @@ namespace MiniProject.Services
                       "@PatientId = @PatientId, " +
                       "@AppointmentDate = @AppointmentDate, " +
                       "@Reason = @Reason, " +
-                      "@DoctorName = @DoctorName, " +
+                      "@DoctorId = @DoctorId, " +
                       "@NewId = @NewId OUTPUT";
 
             await _context.Database.ExecuteSqlRawAsync(sql,
-                patientIdParam, dateParam, reasonParam, doctorParam, newIdParam);
+                patientIdParam, dateParam, reasonParam, doctorIdParam, newIdParam);
 
             return (int)(newIdParam.Value ?? 0);
         }
@@ -85,11 +87,34 @@ namespace MiniProject.Services
 
         public async Task DeleteAsync(int id)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
-            if (appointment != null)
+            // Load appointment with dependent LabOrders, then delete dependents first.
+            var appointment = await _context.Appointments
+                .Include(a => a.LabOrders)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (appointment == null)
             {
+                return;
+            }
+
+            // Use transaction to ensure consistency
+            await using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                if (appointment.LabOrders != null && appointment.LabOrders.Any())
+                {
+                    _context.LabOrders.RemoveRange(appointment.LabOrders);
+                }
+
                 _context.Appointments.Remove(appointment);
                 await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+            }
+            catch (DbUpdateException)
+            {
+                await tx.RollbackAsync();
+                throw;
             }
         }
 
@@ -99,6 +124,13 @@ namespace MiniProject.Services
                 .Where(a => a.PatientId == patientId)
                 .OrderByDescending(a => a.AppointmentDate)
                 .ToListAsync();
+        }
+
+        public async Task<bool> IsDoctorAvailableAsync(int doctorId, DateTime appointmentDate)
+        {
+            // Returns true if NO appointment exists for this doctor at the exact same time
+            return !await _context.Appointments
+                .AnyAsync(a => a.DoctorId == doctorId && a.AppointmentDate == appointmentDate);
         }
     }
 }

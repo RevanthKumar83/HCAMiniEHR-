@@ -12,19 +12,26 @@ namespace MiniProject.Pages.Appointments
     {
         private readonly IAppointmentService _apptService;
         private readonly IPatientService _patientService;
+        private readonly IDoctorService _doctorService;
 
-        public CreateModel(IAppointmentService apptService, IPatientService patientService)
+        public CreateModel(IAppointmentService apptService, IPatientService patientService, IDoctorService doctorService)
         {
             _apptService = apptService;
             _patientService = patientService;
+            _doctorService = doctorService;
         }
 
         public SelectList PatientList { get; set; } = default!;
+        public SelectList DoctorList { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync()
         {
             var patients = await _patientService.GetAllAsync();
             PatientList = new SelectList(patients, "Id", "Name");
+
+            var doctors = await _doctorService.GetAllAsync();
+            DoctorList = new SelectList(doctors, "Id", "Name");
+
             return Page();
         }
 
@@ -37,6 +44,24 @@ namespace MiniProject.Pages.Appointments
             {
                 var patients = await _patientService.GetAllAsync();
                 PatientList = new SelectList(patients, "Id", "Name");
+
+                var doctors = await _doctorService.GetAllAsync();
+                DoctorList = new SelectList(doctors, "Id", "Name");
+
+                return Page();
+            }
+
+            // Check for double booking
+            if (!await _apptService.IsDoctorAvailableAsync(Appointment.DoctorId, Appointment.AppointmentDate))
+            {
+                ModelState.AddModelError("Appointment.AppointmentDate", "This doctor is already booked for this time slot.");
+                
+                var patients = await _patientService.GetAllAsync();
+                PatientList = new SelectList(patients, "Id", "Name");
+
+                var doctors = await _doctorService.GetAllAsync();
+                DoctorList = new SelectList(doctors, "Id", "Name");
+
                 return Page();
             }
 

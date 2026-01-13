@@ -1,4 +1,4 @@
-USE EHR;
+USE HealthcareDb;
 GO
 
 -- Trigger: trg_AppointmentAudit

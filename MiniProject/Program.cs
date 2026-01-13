@@ -9,6 +9,7 @@ builder.Services.AddDbContext<MiniProject.Data.ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<MiniProject.Services.IPatientService, MiniProject.Services.PatientService>();
 builder.Services.AddScoped<MiniProject.Services.IAppointmentService, MiniProject.Services.AppointmentService>();
+builder.Services.AddScoped<MiniProject.Services.IDoctorService, MiniProject.Services.DoctorService>();
 builder.Services.AddScoped<MiniProject.Services.ILabOrderService, MiniProject.Services.LabOrderService>();
 builder.Services.AddScoped<MiniProject.Services.IReportService, MiniProject.Services.ReportService>();
 
